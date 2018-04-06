@@ -12,6 +12,24 @@ Overview
 
 Add a longer description here.
 
+INSTALL
+--------------------
+
+.. code-block::bash
+
+    pip install sphinxcontrib-sphinx-swagger2-api-doc
+
+
+USAGE
+----------
+
+.. code-block:: rst
+
+    .. swagger:: /v1/api/test/
+        :method: GET
+        :title: test API
+        :summary: sssss
+
 Links
 -----
 

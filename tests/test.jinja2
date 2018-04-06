@@ -1,0 +1,32 @@
+{%if title%}
+{{title|safe}}
+------------------------
+{%endif%}
+.. http: {{method|lower}}:: {{real_path|safe}}
+
+   The posts tagged with `tag` that the user (`user_id`) wrote.
+
+{{example_request|safe}}
+
+
+{%for query in context.parameters%}
+{%if query['in'] == 'query' %}
+   :query {{query.type}} {{query.name}}: {{query.description}} query parameter `{{query.name}}` is {{query.required and "" or "not"}} required
+{%endif%}
+
+{%endfor%}
+   :reqheader Accept: {%for customer in context.consumes%}{{customer}},{%endfor%}
+{%for query in context.parameters%}
+{%if (query['in'] == 'body' and query.get('schema',{}).get("$ref",False)) %}
+   :resjsonobj: {{resjsonobj}}
+{%endif%}
+{%if (query['in'] == 'body' and query.get('schema',{}).get("$ref",False)) %}
+   :reqheader Content-Type: optional OAuth token to authenticate
+{%endif%}
+{%endfor%}
+   :reqheader Authorization: optional OAuth token to authenticate
+   :resheader Content-Type: {%for produce in context.produces%}{{produce}},
+{%endfor%}
+{%for response_code,response in context.responses.items()%}
+   :statuscode {{response_code}}: {{response.description|safe}}
+{%endfor%}

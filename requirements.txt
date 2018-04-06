@@ -1,1 +1,3 @@
 pbr
+sphinxcontrib-httpdomain
+jinja2
