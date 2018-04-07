@@ -66,6 +66,8 @@ class SwaggerAPIContext(object):
 
         :return:
         """
+        if self.kwargs.get("example_path"):
+            return self.kwargs.get("example_path")
         from copy import deepcopy
         _ = deepcopy(self.endpoint)
         for p in self.context["parameters"]:
@@ -91,6 +93,8 @@ class SwaggerAPIContext(object):
 
         :return:
         """
+        if self.kwargs.get("summary"):
+            return self.kwargs.get("summary")
         if self.context.get("summary"):
             return self.context.get("summary")
         else:

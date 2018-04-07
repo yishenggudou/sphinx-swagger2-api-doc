@@ -44,6 +44,7 @@ class SwaggerDirective(Directive):
         "path": directives.unchanged,
         "summary": directives.unchanged,
         "method": directives.unchanged,
+        "example_path": directives.unchanged,
         
     }
     
@@ -69,7 +70,8 @@ class SwaggerDirective(Directive):
             self.arguments[0],
             config["swagger_api_domain"],
             self.options['title'],
-            desc=" ".join(self.content)
+            desc=" ".join(self.content),
+            **self.options
         )
         rst_context = o.get_rst_content()
         print(rst_context)
