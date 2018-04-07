@@ -7,18 +7,18 @@ from jinja2 import Template
 class SwaggerAPIContext(object):
     
     def __init__(self,
-                 swagger_url,
-                 method,
-                 endpoint,
-                 domain,
-                 title,
+                 _swagger_url,
+                 _method,
+                 _endpoint,
+                 _domain,
+                 _title,
                  **kwargs):
-        self.swagger_api_url = swagger_url
+        self.swagger_api_url = _swagger_url
         self.kwargs = kwargs
-        self.domain = domain
-        self.method = method
-        self.endpoint = endpoint
-        self.title = title
+        self.domain = _domain
+        self.method = _method
+        self.endpoint = _endpoint
+        self.title = _title
         self.all_content = {}
         self.default_resjsonobject = {}
         self.default_reqjsonobject = {}
@@ -82,10 +82,10 @@ class SwaggerAPIContext(object):
             _ = _ + "?"
             for p in querys:
                 if p['type'] == 'string':
-                    _ += "{name}={value}".format(value="example_value", **p)
+                    _ += "{name}={value}&".format(value=p.get("default", "example_value"), **p)
                 else:
-                    _ += "{name}={value}".format(value="123", **p)
-        return _
+                    _ += "{name}={value}&".format(value=p.get("default", "123"), **p)
+        return _.lstrip("&")
     
     @property
     def summary(self):
@@ -170,6 +170,10 @@ class SwaggerAPIContext(object):
             return ""
     
     @property
+    def title_text(self):
+        return self.kwargs.get("title_text", '-').strip() * 100
+    
+    @property
     def example_request(self):
         """
 
@@ -211,11 +215,12 @@ class SwaggerAPIContext(object):
         _ = """
 {%if title%}
 {{title.strip()|safe}}
------------------------------------------------
+{{title_text|safe}}
 {%endif%}
 .. http:{{method|lower}}:: {{real_path|safe}}
 
    {{summary.strip()|indent(3)}}
+   {{kwargs.desc|indent(3)}}
 
 {{example_request|safe}}
 
@@ -244,6 +249,8 @@ class SwaggerAPIContext(object):
                                resjsonobj=self.resjsonobj,
                                reqjsonobj=self.reqjsonobj,
                                summary=self.summary,
+                               title_text=self.title_text,
+                               kwargs=self.kwargs,
                                example_request=self.example_request,
                                example_path=self.example_path)
 
