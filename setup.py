@@ -12,7 +12,7 @@ setuptools.setup(
     python_requires='>3.0',
     include_package_data=True,
     license='BSD 2',
-    version='0.0.3',
+    version='0.0.4',
     author='timger',
     packages=find_packages(),
     platforms='any',
