@@ -26,10 +26,11 @@ USAGE
 
 in config.py
 
-
-    extensions += ['sphinxcontrib.swagger2', ]
-    swagger_api_url = os.path.join(PROJECT_DIR, "_static", "api-docs.json")
-    swagger_api_domain = "timger.com.cn"
+.. code-block::py
+    
+  extensions += ['sphinxcontrib.swagger2', ]
+  swagger_api_url = os.path.join(PROJECT_DIR, "_static", "api-docs.json")
+  swagger_api_domain = "timger.com.cn"
 
 in rst file
 
